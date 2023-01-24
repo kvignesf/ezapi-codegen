@@ -45,7 +45,7 @@ import com.sun.codemodel.JCodeModel;
  */
 public class DTOGenDriver {
 	
-	String oldContent = "";
+	
 	BufferedReader reader = null;
 	File fileGenerated2 = null;
 	String projectid = "";
@@ -58,6 +58,7 @@ public class DTOGenDriver {
 	String projBasePath = "";
 	String targetfullPath = "";
 	String targetfulldtoPath = "";
+	File templateFile = null;
 	
 	private ResourceLoader resourceLoader;
     private static final Logger logger = LoggerFactory.getLogger(DTOGenDriver.class);
@@ -73,6 +74,7 @@ public class DTOGenDriver {
 
 	public String updateInputFile(JsonNode payLoadInput, Map<String, String> reqInputTokens) {
 		//FileWriter writer = null;
+		String oldContent = "";
 		System.out.println("reqInputTokens" + reqInputTokens);
 		projectid = reqInputTokens.get("projectid").replaceAll("^\"|\"$", "");
 		dtoName = reqInputTokens.get("name").replaceAll("^\"|\"$", "");
@@ -91,14 +93,22 @@ public class DTOGenDriver {
 						+ "schemas" + File.separator + dtoName.toString() + ".json");
 				fileGenerated2.createNewFile();
 				pkgPath = "com\\ezapi\\*";
+				//sourceBasepath = "";
+				//targetBasepath = " C:\\Users\\krish\\Documents\\output\\";
+				
+				projBasePath = "/src/main/java/com/ezapi/api/";
+				projPath = projBasePath+ "service/dto";
+                
 				sourceBasepath = "";
-				targetBasepath = " C:\\Users\\krish\\Documents\\output\\";
+				targetBasepath = "C:/ezapi/codegentemplates/javatmplts/target1/";
+				targetfullPath = targetBasepath+projectid+prgrmType+projBasePath;
+				targetfulldtoPath = targetBasepath+projectid+prgrmType+projPath;
 			} else {
 				//basePath = "/tmp/ezapi_dto_code_gen_test/ezapi_dto_generator/";
 				basePath = "/var/app/ezapi_codegen/ezapi_dto_generator/";
-				fileGenerated2 = new File(basePath + baseLocationofFile + File.separator
-						+ "schemas" + File.separator + dtoName.toString() + ".json");
-				fileGenerated2.createNewFile();
+				/*fileGenerated2 = new File(basePath + baseLocationofFile + File.separator
+						+ "schemas" + File.separator + dtoName.toString() + ".json"); */
+				//fileGenerated2.createNewFile();
 				pkgPath = "com/ezapi";
 				projBasePath = "/src/main/java/com/ezapi/api/";
 				projPath = projBasePath+ "service/dto";
@@ -107,6 +117,14 @@ public class DTOGenDriver {
 				targetBasepath = " /mnt/codegen/";
 				targetfullPath = targetBasepath+projectid+prgrmType+projBasePath;
 				targetfulldtoPath = targetBasepath+projectid+prgrmType+projPath;
+				
+				basePath = "/var/app/ezapi_java_code_gen/";
+				fileGenerated2 = new File(basePath + "src/main/resources" + File.separator
+						+ "schemas" + File.separator + dtoName.toString() + ".json");
+				fileGenerated2.createNewFile();
+				baseLocationofFile = getBaseLocation(basePath+ "src/main/resources");	
+				cpr = new ClassPathResource("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json");
+				jsonFileAsStream = cpr.getInputStream();
 			}
 
 			reader = new BufferedReader(new InputStreamReader(jsonFileAsStream));
@@ -116,10 +134,11 @@ public class DTOGenDriver {
 				oldContent = oldContent + line + System.lineSeparator();
 				line = reader.readLine();
 			}
+			System.out.println("old.."+oldContent);
 			System.out.println(".new.." + payLoadInput);
 			String newContent = oldContent.replaceAll("replace", payLoadInput.toString());
 			System.out.println("newContent.." + newContent);
-			
+			System.out.println("fniished..");
 			JSONParser parser = new JSONParser();
 			JSONObject jsonobj = (JSONObject) parser.parse(newContent);
 			System.out.println("..jsonobj.." + jsonobj.toString());
@@ -143,8 +162,10 @@ public class DTOGenDriver {
 					String fileGenerated = runCommand("cmd", "/c", "dir /b " + outputPojoDirectory.getPath().toString()+"\\"+pkgPath);
 					System.out.println("..fileGenerated,," + fileGenerated);
                     //runCommand("cmd", "/c", "mkdir  C:\\Users\\krish\\Documents\\output\\" +projectid);
-					runCommand("cmd", "/c", "move " +outputPojoDirectory.getPath().toString()+"\\"+pkgPath + " C:\\Users\\krish\\Documents\\output\\"+projectid);
-					String fileCopied = runCommand("cmd", "/c", "dir /b " + " C:\\Users\\krish\\Documents\\output\\"+projectid);
+					//runCommand("cmd", "/c", "move " +outputPojoDirectory.getPath().toString()+"\\"+pkgPath + " C:\\Users\\krish\\Documents\\output\\"+projectid);
+					runCommand("cmd", "/c", "move " +currdir+"\\"+outputPojoDirectory.getPath().toString()+"\\"+pkgPath + " " + targetfulldtoPath);
+					//String fileCopied = runCommand("cmd", "/c", "dir /b " + " C:\\Users\\krish\\Documents\\output\\"+projectid);
+					String fileCopied = runCommand("cmd", "/c", "dir /b " + targetfulldtoPath);
 					System.out.println("..fileCopied,," + fileCopied);
 					if (!isNullOrEmpty(fileCopied) && !isNullOrEmpty(fileGenerated)) {
 						if (fileCopied.equalsIgnoreCase(fileGenerated)) {
