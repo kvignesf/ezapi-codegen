@@ -79,8 +79,8 @@ public class DTOGenDriver {
 		System.out.println("reqInputTokens" + reqInputTokens);
 		projectid = reqInputTokens.get("projectid").replaceAll("^\"|\"$", "");
 		dtoName = reqInputTokens.get("name").replaceAll("^\"|\"$", "");
-		System.out.println("projectid.." + projectid);
-		System.out.println("name.." + dtoName);
+		logger.info("projectid.." + projectid);
+		logger.info("name.." + dtoName);
 		String returnMsg = "Failure";
 		String prgrmType = "/javacode";
 		try {
@@ -123,6 +123,7 @@ public class DTOGenDriver {
 				fileGenerated2 = new File(basePath + "src/main/resources" + File.separator
 						+ "schemas" + File.separator + dtoName.toString() + ".json");
 				fileGenerated2.createNewFile();
+				logger.info("fileGenerated2 here - {}",fileGenerated2.getName());
 				baseLocationofFile = getBaseLocation(basePath+ "src/main/resources");	
 				cpr = new ClassPathResource("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json");
 				jsonFileAsStream = cpr.getInputStream();
@@ -135,14 +136,14 @@ public class DTOGenDriver {
 				oldContent = oldContent + line + System.lineSeparator();
 				line = reader.readLine();
 			}
-			System.out.println("old.."+oldContent);
-			System.out.println(".new.." + payLoadInput);
+			logger.info("old.."+oldContent);
+			logger.info(".new.." + payLoadInput);
 			String newContent = oldContent.replaceAll("replace", payLoadInput.toString());
-			System.out.println("newContent.." + newContent);
-			System.out.println("fniished..");
+			logger.info("newContent.." + newContent);
+			logger.info("fniished..");
 			JSONParser parser = new JSONParser();
 			JSONObject jsonobj = (JSONObject) parser.parse(newContent);
-			System.out.println("..jsonobj.." + jsonobj.toString());
+			logger.info("..jsonobj.." + jsonobj.toString());
 			
 			Files.write(Paths.get(fileGenerated2.toURI()), jsonobj.toJSONString().getBytes());
 			
@@ -153,21 +154,21 @@ public class DTOGenDriver {
 			//File inputJson = new File(baseLocationofFile + File.separator + "schemas" + File.separator + "output.json");
 			File outputPojoDirectory = new File(baseLocationofFile + File.separator + "convertedPojo2");
 			outputPojoDirectory.mkdirs();
-			System.out.println("..output.."+outputPojoDirectory.getPath());
+			logger.info("..output.."+outputPojoDirectory.getPath());
 			try {
 				convert2JSON(fileGenerated2.toURI().toURL(), outputPojoDirectory, packageName,fileGenerated2.getName().replace(".json", ""));				
-				System.out.println(".." + System.getProperty("os.name"));
+				logger.info(".." + System.getProperty("os.name"));
 				if (System.getProperty("os.name").contains("Windows")) {
 					String currdir = runCommand("cmd", "/c", "cd");
-					System.out.println("currdir.."+currdir);					
+					logger.info("currdir.."+currdir);					
 					String fileGenerated = runCommand("cmd", "/c", "dir /b " + outputPojoDirectory.getPath().toString()+"\\"+pkgPath);
-					System.out.println("..fileGenerated,," + fileGenerated);
+					logger.info("..fileGenerated,," + fileGenerated);
                     //runCommand("cmd", "/c", "mkdir  C:\\Users\\krish\\Documents\\output\\" +projectid);
 					//runCommand("cmd", "/c", "move " +outputPojoDirectory.getPath().toString()+"\\"+pkgPath + " C:\\Users\\krish\\Documents\\output\\"+projectid);
 					runCommand("cmd", "/c", "move " +currdir+"\\"+outputPojoDirectory.getPath().toString()+"\\"+pkgPath + " " + targetfulldtoPath);
 					//String fileCopied = runCommand("cmd", "/c", "dir /b " + " C:\\Users\\krish\\Documents\\output\\"+projectid);
 					String fileCopied = runCommand("cmd", "/c", "dir /b " + targetfulldtoPath);
-					System.out.println("..fileCopied,," + fileCopied);
+					logger.info("..fileCopied,," + fileCopied);
 					if (!isNullOrEmpty(fileCopied) && !isNullOrEmpty(fileGenerated)) {
 						if (fileCopied.equalsIgnoreCase(fileGenerated)) {
 							returnMsg = "Success";
@@ -177,16 +178,16 @@ public class DTOGenDriver {
 					}
 				} else if (System.getProperty("os.name").contains("Linux")) {
 					String currdir = runCommand("sh", "-c", "pwd");
-					System.out.println("currdir.."+currdir);
-                    System.out.println("..dir.."+outputPojoDirectory.getPath().toString());
+					logger.info("currdir.."+currdir);
+					logger.info("..dir.."+outputPojoDirectory.getPath().toString());
                     //String projPath = "/src/main/java/com/ezapi/api/service/dto";
                     //String projBasePath = "/src/main/java/com/ezapi/api/";
                     respMsg=runCommand("sh", "-c", "rm -rf " + " /mnt/codegen/"+projectid+prgrmType+projBasePath+"*JHipster.java");
-                    System.out.println("respMsg.."+respMsg);                    
+                    logger.info("respMsg.."+respMsg);                    
 					String fileGenerated = runCommand("sh", "/c", "ls *.java | tr '\n' '\n' " + currdir + outputPojoDirectory.getPath().toString()+"/"+pkgPath);
                     runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + " /mnt/codegen/"+projectid+prgrmType+projPath);
-					System.out.println("..fileCopied,," + fileCopied);
+					logger.info("..fileCopied,," + fileCopied);
 					if (!isNullOrEmpty(fileCopied) && !isNullOrEmpty(fileGenerated)) {
 						if (fileCopied.equalsIgnoreCase(fileGenerated)) {
 							returnMsg = "Success";
@@ -198,7 +199,7 @@ public class DTOGenDriver {
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				System.out.println("Encountered issue while converting to pojo: " + e.getMessage());
+				logger.info("Encountered issue while converting to pojo: " + e.getMessage());
 				e.printStackTrace();
 			}
 
@@ -224,9 +225,9 @@ public class DTOGenDriver {
 		String finalStatus = "failure"; 
 		String parentDirectory = "";
 				
-		System.out.println("..outputFile.."+outputFile);
+		logger.info("..outputFile.."+outputFile);
 		File f = new File(outputFile);
-		System.out.println("..fileparent.." + f.getPath() + "..." + f.getParentFile());
+		logger.info("..fileparent.." + f.getPath() + "..." + f.getParentFile());
 		parentDirectory = f.getParentFile().toString();
 		try {
 			//baseFilePath = "C:\\ezapi\\codegentemplates\\javatmplts\\target1\\"+projectId;
@@ -238,7 +239,7 @@ public class DTOGenDriver {
 					
 				} else { 
 					Path dirs = Files.createDirectories(Path.of(baseFilePath));
-					logger.debug("directories created: "+ dirs);
+					logger.info("directories created: "+ dirs);
 				}
 				
 				//baseFilePath = baseFilePath + File.separator + 
@@ -251,7 +252,7 @@ public class DTOGenDriver {
 					
 				} else { 
 					Path dirs = Files.createDirectories(Path.of(baseFilePath));
-					logger.debug("directories created: "+ dirs);
+					logger.info("directories created: "+ dirs);
 				}
 			}
 			
@@ -350,11 +351,11 @@ public class DTOGenDriver {
 	public static void printResults(Process process) throws IOException {
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 	    String line = "";
-	    System.out.println("..line reader.." + reader.readLine());
+	    logger.info("..line reader.." + reader.readLine());
 		
 		while ((line = reader.readLine()) != null) {
-			System.out.println(line);
-			logger.debug("line.." + line);
+			logger.info(line);
+			logger.info("line.." + line);
 		} 
 	    
 		/*
