@@ -44,7 +44,7 @@
 		</rollingPolicy>
 	</appender>
 	
-	<logger name="com.org.gen.json2pojo" level="debug" additivity="false">
+	<logger name="com.org.gen.json2pojo" level="info" additivity="false">
 		<appender-ref ref = "FILE-AUDIT" />
 		<appender-ref ref = "STDOUT" />	
 	</logger>

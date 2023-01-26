@@ -74,6 +74,7 @@ public class DTOGenDriver {
 
 	public String updateInputFile(JsonNode payLoadInput, Map<String, String> reqInputTokens) {
 		//FileWriter writer = null;
+		
 		String oldContent = "";
 		System.out.println("reqInputTokens" + reqInputTokens);
 		projectid = reqInputTokens.get("projectid").replaceAll("^\"|\"$", "");
@@ -82,8 +83,8 @@ public class DTOGenDriver {
 		System.out.println("name.." + dtoName);
 		String returnMsg = "Failure";
 		String prgrmType = "/javacode";
-		
 		try {
+		
 			File baseLocationofFile = getBaseLocation("src/main/resources");			
 			ClassPathResource cpr = new ClassPathResource("schemas/input.json");
 			InputStream jsonFileAsStream = cpr.getInputStream();
@@ -126,7 +127,7 @@ public class DTOGenDriver {
 				cpr = new ClassPathResource("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json");
 				jsonFileAsStream = cpr.getInputStream();
 			}
-
+			System.out.println("hit here..");
 			reader = new BufferedReader(new InputStreamReader(jsonFileAsStream));
 			// Reading all the lines of input text file into oldContent
 			String line = reader.readLine();

@@ -110,9 +110,11 @@ public class GenPojoController {
 		String verb = req.getMethod();
 		String projId = reqInputTokens.get("projectid").toString();
 		String outputFile = reqInputTokens.get("outputFile").toString();
+		System.out.println("..projId.."+ projId +"...outputFile.."+outputFile);
 		//respEntity= ResponseEntity.status(HttpStatus.OK).body(msg);			
 		String msg = genDriver.genJavaCodeThruJHip(projId, outputFile);
 		respEntity= ResponseEntity.status(HttpStatus.OK).body(msg);	
+		System.out.println("respEntity.."+respEntity);
 		return respEntity;
 	}
 }
