@@ -76,7 +76,7 @@ public class DTOGenDriver {
 		//FileWriter writer = null;
 		logger.info("doStuff took input - {}");
 		String oldContent = "";
-		System.out.println("reqInputTokens" + reqInputTokens);
+		logger.info("reqInputTokens" + reqInputTokens);
 		projectid = reqInputTokens.get("projectid").replaceAll("^\"|\"$", "");
 		dtoName = reqInputTokens.get("name").replaceAll("^\"|\"$", "");
 		logger.info("projectid.." + projectid);
@@ -125,6 +125,7 @@ public class DTOGenDriver {
 				fileGenerated2.createNewFile();
 				logger.info("fileGenerated2 here - {}",fileGenerated2.getName());
 				baseLocationofFile = getBaseLocation(basePath+ "src/main/resources");	
+				logger.info("baseLocationofFile here - {}",baseLocationofFile.getName());
 				cpr = new ClassPathResource("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json");
 				jsonFileAsStream = cpr.getInputStream();
 			}
@@ -366,12 +367,12 @@ public class DTOGenDriver {
 
 	public static File getBaseLocation(String folderName) {
 		File baseLocationFile = new File(folderName);
+		
 		if (!baseLocationFile.exists()) {
 			baseLocationFile = loadFromClassPath(folderName, baseLocationFile);
 		}
 		if (!baseLocationFile.exists()) {
-			System.out
-					.println("Base location file provided does nt exists in the classpath/filesystem {}" + folderName);
+			logger.info("Base location file provided does nt exists in the classpath/filesystem {}" + folderName);
 		}
 		return baseLocationFile;
 	}
@@ -381,6 +382,8 @@ public class DTOGenDriver {
 		URL resource = DTOGenDriver.class.getClassLoader().getResource(baseLocation);
 		if (resource != null) {
 			baseLocationFile = new File(resource.getFile());
+		} else {
+			
 		}
 		return baseLocationFile;
 	}
@@ -410,7 +413,7 @@ public class DTOGenDriver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("..returnDir.."+returnDir);
+		logger.info("..returnDir.."+returnDir);
 		if (returnDir.length() > 0) {
 			returnDir = returnDir.substring(0, returnDir.length()-1);
 		}
