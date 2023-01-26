@@ -74,7 +74,7 @@ public class DTOGenDriver {
 
 	public String updateInputFile(JsonNode payLoadInput, Map<String, String> reqInputTokens) {
 		//FileWriter writer = null;
-		
+		logger.info("doStuff took input - {}");
 		String oldContent = "";
 		System.out.println("reqInputTokens" + reqInputTokens);
 		projectid = reqInputTokens.get("projectid").replaceAll("^\"|\"$", "");
@@ -127,7 +127,7 @@ public class DTOGenDriver {
 				cpr = new ClassPathResource("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json");
 				jsonFileAsStream = cpr.getInputStream();
 			}
-			System.out.println("hit here..");
+			logger.info("reached here - {}");
 			reader = new BufferedReader(new InputStreamReader(jsonFileAsStream));
 			// Reading all the lines of input text file into oldContent
 			String line = reader.readLine();
