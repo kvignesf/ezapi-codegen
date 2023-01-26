@@ -125,8 +125,10 @@ public class DTOGenDriver {
 				fileGenerated2.createNewFile();
 				logger.info("fileGenerated2 here - {}",fileGenerated2.getName());
 				baseLocationofFile = getBaseLocation(basePath+ "src/main/resources");	
-				logger.info("baseLocationofFile here - {}",baseLocationofFile.getName());
+				logger.info("baseLocationofFile here - {}",baseLocationofFile.getPath());
 				cpr = new ClassPathResource("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json");
+				logger.info("cpr", cpr.getFile());
+				logger.info("cpr2",cpr.getPath());
 				jsonFileAsStream = cpr.getInputStream();
 			}
 			logger.info("reached here - {}");
@@ -206,6 +208,7 @@ public class DTOGenDriver {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("Exception is:" + e);
 		} finally {
 			try {
 				// Closing the resources
@@ -214,6 +217,7 @@ public class DTOGenDriver {
 
 			} catch (IOException ex) {
 				ex.printStackTrace();
+				logger.error("Exception is:" + ex);
 			}
 		}
 		return returnMsg;
