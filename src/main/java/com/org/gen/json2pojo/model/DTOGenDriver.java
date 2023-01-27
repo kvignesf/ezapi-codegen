@@ -2,6 +2,7 @@ package com.org.gen.json2pojo.model;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,13 +127,14 @@ public class DTOGenDriver {
 				logger.info("fileGenerated2 here - {}",fileGenerated2.getName());
 				baseLocationofFile = getBaseLocation(basePath+ "src/main/resources");	
 				logger.info("baseLocationofFile here - {}",baseLocationofFile.getPath());
-				cpr = new ClassPathResource("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json");
-				logger.info("cpr", cpr.getFile());
-				logger.info("cpr2",cpr.getPath());
-				jsonFileAsStream = cpr.getInputStream();
+				//cpr = new ClassPathResource("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json");
+				//jsonFileAsStream = cpr.getInputStream();
+				//logger.info("cpr", cpr.getFile());
+				//logger.info("cpr2",cpr.getPath());
+				//jsonFileAsStream = cpr.getInputStream();
 			}
 			logger.info("reached here - {}");
-			reader = new BufferedReader(new InputStreamReader(jsonFileAsStream));
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json"))));
 			// Reading all the lines of input text file into oldContent
 			String line = reader.readLine();
 			while (line != null) {
