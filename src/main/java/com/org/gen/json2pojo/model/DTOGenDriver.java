@@ -236,6 +236,7 @@ public class DTOGenDriver {
 		File f = new File(outputFile);
 		logger.info("..fileparent.." + f.getPath() + "..." + f.getParentFile());
 		parentDirectory = f.getParentFile().toString();
+		logger.info("os.name", System.getProperty("os.name"));
 		try {
 			//baseFilePath = "C:\\ezapi\\codegentemplates\\javatmplts\\target1\\"+projectId;
 			baseFilePath = parentDirectory;
