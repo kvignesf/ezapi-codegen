@@ -126,7 +126,7 @@ public class DTOGenDriver {
 				logger.info("fileGenerated2 here - {}",fileGenerated2.getName());
 				baseLocationofFile = getBaseLocation(basePath+ "src/main/resources");	
 				logger.info("baseLocationofFile here - {}",baseLocationofFile.getPath());
-				cpr = new ClassPathResource("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json");
+				cpr = new ClassPathResource("schemas/input.json");
 				logger.info("cpr", cpr.getFile());
 				logger.info("cpr2",cpr.getPath());
 				jsonFileAsStream = cpr.getInputStream();
