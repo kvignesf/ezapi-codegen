@@ -406,7 +406,7 @@ public class DTOGenDriver {
 			InputStreamReader inputStreamReader = new InputStreamReader(process.getInputStream());
 			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 			while ((output = bufferedReader.readLine()) != null) {
-				System.out.println(output);
+				logger.info(output);
 				returnDir = output + "," + returnDir;
 			}
 			process.waitFor();

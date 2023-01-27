@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,8 @@ public class GenPojoController {
 	public Map<String, Map<String, String>> totalScenarios;
 	private APIService apiservice;
 	public static Map<String, String> testCaseLevelDetails;
-	
+    private static final Logger logger = LoggerFactory.getLogger(GenPojoController.class);
+
 	@GetMapping(value="/testgen")
 	public String runSamplegen() {
 		return "success go ahead !";
@@ -47,12 +50,12 @@ public class GenPojoController {
 		ResponseEntity respEntity = null;
 
 		String verb = req.getMethod();
-		System.out.println("request paylad" + payLoad);
-		System.out.println("request paylad path" + payLoad.get("path"));
+		logger.info("request paylad" + payLoad);
+		logger.info("request paylad path" + payLoad.get("path"));
 		//Map<String, String> reqInputTokens = new ParsingUtils().createMapFromResponse(payLoad);
 		Map<String, String> reqInputTokens = new HashMap<>();
 		reqInputTokens.put("schema", schema);
-		System.out.println("reqInputTokens paylad" + reqInputTokens.toString());
+		logger.info("reqInputTokens paylad" + reqInputTokens.toString());
 		//apiservice = new APIService(reqInputTokens, schema);
 
 		String msg = genDriver.updateInputFile(payLoad.get("path"), reqInputTokens);
@@ -70,17 +73,17 @@ public class GenPojoController {
 		ResponseEntity respEntity = null;
 
 		String verb = req.getMethod();
-		System.out.println("request paylad" + payLoad);
-		System.out.println("request paylad path" + payLoad.get("path").get("properties"));
-		System.out.println("project id" + payLoad.get("projectid"));
-		System.out.println("name" + payLoad.get("name"));
+		logger.info("request paylad" + payLoad);
+		logger.info("request paylad path" + payLoad.get("path").get("properties"));
+		logger.info("project id" + payLoad.get("projectid"));
+		logger.info("name" + payLoad.get("name"));
 
 		//Map<String, String> reqInputTokens = new ParsingUtils().createMapFromResponse(payLoad);
 		Map<String, String> reqInputTokens = new HashMap<>();
 		reqInputTokens.put("projectid", payLoad.get("projectid").toString());
 		reqInputTokens.put("name", payLoad.get("name").toString());
 		//apiservice = new APIService(reqInputTokens, schema);
-		System.out.println("reqInputTokens paylad" + reqInputTokens.toString());
+		logger.info("reqInputTokens paylad" + reqInputTokens.toString());
 		
 		if (isNullOrEmpty(payLoad.get("path").toString())) {
 		if (isNullOrEmpty(payLoad.get("path").get("properties").toString())) {
@@ -110,11 +113,11 @@ public class GenPojoController {
 		String verb = req.getMethod();
 		String projId = reqInputTokens.get("projectid").toString();
 		String outputFile = reqInputTokens.get("outputFile").toString();
-		System.out.println("..projId.."+ projId +"...outputFile.."+outputFile);
+		logger.info("..projId.."+ projId +"...outputFile.."+outputFile);
 		//respEntity= ResponseEntity.status(HttpStatus.OK).body(msg);			
 		String msg = genDriver.genJavaCodeThruJHip(projId, outputFile);
 		respEntity= ResponseEntity.status(HttpStatus.OK).body(msg);	
-		System.out.println("respEntity.."+respEntity);
+		logger.info("respEntity.."+respEntity);
 		return respEntity;
 	}
 }
