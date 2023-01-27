@@ -253,7 +253,7 @@ public class DTOGenDriver {
 				//baseFilePath = baseFilePath + File.separator + 
 				//srcFilePath = "C:\\ezapi\\codegentemplates\\source\\projectResourceApi\\";
 				//controllerPath = "\\Controllers\\";
-			} else if (System.getProperty("os.name").contains("Linux")) {
+			} else {//if (System.getProperty("os.name").contains("Linux")) {
 				File tempDirectory = new File(baseFilePath);
 				if (tempDirectory.exists()) 
 				{ 
