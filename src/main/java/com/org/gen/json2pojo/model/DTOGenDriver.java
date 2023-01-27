@@ -253,7 +253,33 @@ public class DTOGenDriver {
 				//baseFilePath = baseFilePath + File.separator + 
 				//srcFilePath = "C:\\ezapi\\codegentemplates\\source\\projectResourceApi\\";
 				//controllerPath = "\\Controllers\\";
-			} else {//if (System.getProperty("os.name").contains("Linux")) {
+				Process processP1 = Runtime.getRuntime().exec("npm.cmd install generator-jhipster@7.0.1 ", null, new File(baseFilePath) );
+				printResults(processP1);
+				
+				ProcessBuilder builder = new ProcessBuilder();
+				if (System.getProperty("os.name").contains("Windows")) {
+				    builder.command("cmd.exe", "/c", "jhipster.cmd jdl --force  "+outputFile);
+				} else {
+				    builder.command("sh", "-c", "ls");
+				}
+				builder.directory(new File(baseFilePath));
+				builder.inheritIO();
+				Process process = builder.start();
+				StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+				Future<?> future = Executors.newSingleThreadExecutor().submit(streamGobbler);
+				int exitCode = process.waitFor();
+				assert exitCode == 0;
+				future.get(180, TimeUnit.SECONDS);
+				Thread.sleep(5000);
+				//String destPath = baseFilePath+codeProjName+File.separator+"Models";
+				File tempDirectory0 = new File(baseFilePath+"\\"+"src");
+				if (tempDirectory0.exists()) 
+				{ 
+					finalStatus = "success";
+				}
+				
+				
+			} else {	//if (System.getProperty("os.name").contains("Linux")) {
 				File tempDirectory = new File(baseFilePath);
 				if (tempDirectory.exists()) 
 				{ 
@@ -262,10 +288,30 @@ public class DTOGenDriver {
 					Path dirs = Files.createDirectories(Path.of(baseFilePath));
 					logger.info("directories created: "+ dirs);
 				}
+				Process processP1 = Runtime.getRuntime().exec("npm install generator-jhipster@7.0.1 ", null, new File(baseFilePath) );
+				printResults(processP1);
+				
+				ProcessBuilder builder = new ProcessBuilder();
+				builder.command("sh", "-c", "jhipster jdl --force  "+outputFile);
+				
+				builder.directory(new File(baseFilePath));
+				builder.inheritIO();
+				Process process = builder.start();
+				StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+				Future<?> future = Executors.newSingleThreadExecutor().submit(streamGobbler);
+				int exitCode = process.waitFor();
+				assert exitCode == 0;
+				future.get(180, TimeUnit.SECONDS);
+				Thread.sleep(5000);
+				//String destPath = baseFilePath+codeProjName+File.separator+"Models";
+				File tempDirectory0 = new File(baseFilePath+"\\"+"src");
+				if (tempDirectory0.exists()) 
+				{ 
+					finalStatus = "success";
+				}
 			}
 			
-			Process processP1 = Runtime.getRuntime().exec("npm.cmd install generator-jhipster@7.0.1 ", null, new File(baseFilePath) );
-			printResults(processP1);
+			
 			
 			/*
 			Process processP2 = Runtime.getRuntime().exec("jhipster.cmd jdl --force  "+outputFile, null, new File(baseFilePath) );
@@ -292,7 +338,7 @@ public class DTOGenDriver {
 			*/
 			
 			
-			ProcessBuilder builder = new ProcessBuilder();
+			/*ProcessBuilder builder = new ProcessBuilder();
 			if (System.getProperty("os.name").contains("Windows")) {
 			    builder.command("cmd.exe", "/c", "jhipster.cmd jdl --force  "+outputFile);
 			} else {
@@ -312,7 +358,7 @@ public class DTOGenDriver {
 			if (tempDirectory0.exists()) 
 			{ 
 				finalStatus = "success";
-			}
+			}*/
 		}  catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
