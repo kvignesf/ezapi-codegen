@@ -293,13 +293,13 @@ public class DTOGenDriver {
 				Process processP1 = Runtime.getRuntime().exec("npm install generator-jhipster@7.0.1 ", null, new File(baseFilePath) );
 				printResults(processP1);
 				
-				ProcessBuilder builder = new ProcessBuilder();
-				builder.command("sh", "-c", "jhipster jdl --force  "+outputFile);				
-				builder.directory(new File(baseFilePath));
-				builder.inheritIO();
-				Process process = builder.start();
+				/*
+				 * ProcessBuilder builder = new ProcessBuilder(); builder.command("sh", "-c",
+				 * "jhipster jdl --force  "+outputFile); builder.directory(new
+				 * File(baseFilePath)); builder.inheritIO(); Process process = builder.start();
+				 */
 				
-				process = Runtime.getRuntime().exec(String.format("/bin/sh -c jhipster jdl --force "+outputFile, baseFilePath));
+				Process process = Runtime.getRuntime().exec(String.format("sh -c jhipster jdl --force "+outputFile, baseFilePath));
 				StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
 				Future<?> future = Executors.newSingleThreadExecutor().submit(streamGobbler);
 				int exitCode = process.waitFor();
