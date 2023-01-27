@@ -299,7 +299,8 @@ public class DTOGenDriver {
 				 * File(baseFilePath)); builder.inheritIO(); Process process = builder.start();
 				 */
 				
-				Process process = Runtime.getRuntime().exec(String.format("sh -c jhipster jdl --force "+outputFile, baseFilePath));
+				//Process process = Runtime.getRuntime().exec(String.format("sh -c jhipster jdl --force "+outputFile, baseFilePath));
+				Process process = Runtime.getRuntime().exec( "sh -c jhipster jdl --force "+outputFile, null, new File(baseFilePath) );
 				StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
 				Future<?> future = Executors.newSingleThreadExecutor().submit(streamGobbler);
 				int exitCode = process.waitFor();
