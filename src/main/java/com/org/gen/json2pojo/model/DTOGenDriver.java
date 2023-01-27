@@ -240,6 +240,7 @@ public class DTOGenDriver {
 		try {
 			//baseFilePath = "C:\\ezapi\\codegentemplates\\javatmplts\\target1\\"+projectId;
 			baseFilePath = parentDirectory;
+			logger.info("baseFilePath..",baseFilePath);
 			if (System.getProperty("os.name").contains("Windows")) {
 				File tempDirectory = new File(baseFilePath);
 				if (tempDirectory.exists()) 
@@ -292,11 +293,12 @@ public class DTOGenDriver {
 				printResults(processP1);
 				
 				ProcessBuilder builder = new ProcessBuilder();
-				builder.command("sh", "-c", "jhipster jdl --force  "+outputFile);
-				
+				builder.command("sh", "-c", "jhipster jdl --force  "+outputFile);				
 				builder.directory(new File(baseFilePath));
 				builder.inheritIO();
 				Process process = builder.start();
+				
+				process = Runtime.getRuntime().exec(String.format("/bin/sh -c jhipster jdl --force "+outputFile, baseFilePath));
 				StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
 				Future<?> future = Executors.newSingleThreadExecutor().submit(streamGobbler);
 				int exitCode = process.waitFor();
