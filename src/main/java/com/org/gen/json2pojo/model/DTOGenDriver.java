@@ -236,11 +236,11 @@ public class DTOGenDriver {
 		File f = new File(outputFile);
 		logger.info("..fileparent.." + f.getPath() + "..." + f.getParentFile());
 		parentDirectory = f.getParentFile().toString();
-		logger.info("os.name", System.getProperty("os.name"));
+		logger.info("os.name" +System.getProperty("os.name"));
 		try {
 			//baseFilePath = "C:\\ezapi\\codegentemplates\\javatmplts\\target1\\"+projectId;
 			baseFilePath = parentDirectory;
-			logger.info("baseFilePath..",baseFilePath);
+			logger.info("baseFilePath.." +baseFilePath);
 			if (System.getProperty("os.name").contains("Windows")) {
 				File tempDirectory = new File(baseFilePath);
 				if (tempDirectory.exists()) 
@@ -281,6 +281,7 @@ public class DTOGenDriver {
 				
 				
 			} else {	//if (System.getProperty("os.name").contains("Linux")) {
+				logger.info("os.name" +System.getProperty("os.name"));
 				File tempDirectory = new File(baseFilePath);
 				if (tempDirectory.exists()) 
 				{ 
