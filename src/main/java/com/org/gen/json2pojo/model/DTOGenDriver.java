@@ -190,7 +190,8 @@ public class DTOGenDriver {
                     respMsg=runCommand("sh", "-c", "rm -rf " + " /mnt/codegen/"+projectid+prgrmType+projBasePath+"*JHipster.java");
                     logger.info("respMsg.."+respMsg);                    
 					String fileGenerated = runCommand("sh", "/c", "ls *.java | tr '\n' '\n' " + currdir + outputPojoDirectory.getPath().toString()+"/"+pkgPath);
-                    runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
+                    //runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
+					runCommand("sh", "-c", "mv " +outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + " /mnt/codegen/"+projectid+prgrmType+projPath);
 					logger.info("..fileCopied,," + fileCopied);
 					if (!isNullOrEmpty(fileCopied) && !isNullOrEmpty(fileGenerated)) {
