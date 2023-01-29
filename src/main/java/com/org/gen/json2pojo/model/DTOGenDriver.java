@@ -196,7 +196,7 @@ public class DTOGenDriver {
 					//String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + " /mnt/codegen/"+projectid+prgrmType+projPath);
 					String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n'");
 					logger.info("..fileCopied,," + fileCopied);
-					Process fileCpd = Runtime.getRuntime().exec("ls *.java ", null, new File("/mnt/codegen/"+projectid+prgrmType+projPath));
+					Process fileCpd = Runtime.getRuntime().exec("ls *.java | tr '\\n' '\\n'", null, new File("/mnt/codegen/"+projectid+prgrmType+projPath));
 					printResults(fileCpd);
 					if (!isNullOrEmpty(fileCopied) && !isNullOrEmpty(fileGenerated)) {
 						if (fileCopied.equalsIgnoreCase(fileGenerated)) {
