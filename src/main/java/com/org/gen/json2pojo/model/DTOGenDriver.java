@@ -189,15 +189,17 @@ public class DTOGenDriver {
                     //String projBasePath = "/src/main/java/com/ezapi/api/";
                     respMsg=runCommand("sh", "-c", "rm -rf " + " /mnt/codegen/"+projectid+prgrmType+projBasePath+"*JHipster.java");
                     logger.info("respMsg.."+respMsg);                    
-					String fileGenerated = runCommand("sh", "/c", "ls *.java | tr '\n' '\n' " + outputPojoDirectory.getPath().toString()+"/"+pkgPath);
+					String fileGenerated = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + outputPojoDirectory.getPath().toString()+"/"+pkgPath);
 					logger.info("fileGenerated.."+fileGenerated);
+					Process fileGenerated2 = Runtime.getRuntime().exec("ls *.java | tr '\\n' '\\n'", null, new File(outputPojoDirectory.getPath().toString()+"/"+pkgPath));
+					printResults(fileGenerated2);
                     //runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					runCommand("sh", "-c", "mv " +outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					//String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + " /mnt/codegen/"+projectid+prgrmType+projPath);
-					String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\n' '\n'");
+					String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n'");
 					logger.info("..fileCopied,," + fileCopied);
-					logger.info("..path" +"/mnt/codegen/"+projectid+prgrmType+projPath);
-					Process fileCpd = Runtime.getRuntime().exec("ls *.java | tr '\n' '\n'", null, new File("/mnt/codegen/"+projectid+prgrmType+projPath));
+					logger.info("..path,,," +"/mnt/codegen/"+projectid+prgrmType+projPath);
+					Process fileCpd = Runtime.getRuntime().exec("ls *.java | tr '\\n' '\\n'", null, new File("/mnt/codegen/"+projectid+prgrmType+projPath));
 					printResults(fileCpd);
 					if (!isNullOrEmpty(fileCopied) && !isNullOrEmpty(fileGenerated)) {
 						if (fileCopied.equalsIgnoreCase(fileGenerated)) {
