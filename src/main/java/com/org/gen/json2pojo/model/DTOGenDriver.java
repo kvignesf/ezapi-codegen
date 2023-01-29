@@ -191,7 +191,7 @@ public class DTOGenDriver {
                     logger.info("respMsg.."+respMsg);                    
 					String fileGenerated = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + outputPojoDirectory.getPath().toString()+"/"+pkgPath);
 					logger.info("fileGenerated.."+fileGenerated);
-					Process fileGenerated2 = Runtime.getRuntime().exec("ls *.java | tr '\\n' '\\n'", null, new File(outputPojoDirectory.getPath().toString()+"/"+pkgPath));
+					Process fileGenerated2 = Runtime.getRuntime().exec("ls *.java", null, new File(outputPojoDirectory.getPath().toString()+"/"+pkgPath));
 					printResults(fileGenerated2);
                     //runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					runCommand("sh", "-c", "mv " +outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
