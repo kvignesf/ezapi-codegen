@@ -194,9 +194,9 @@ public class DTOGenDriver {
                     //runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					runCommand("sh", "-c", "mv " +outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					//String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + " /mnt/codegen/"+projectid+prgrmType+projPath);
-					String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n'");
+					String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\n' '\n'");
 					logger.info("..fileCopied,," + fileCopied);
-					Process fileCpd = Runtime.getRuntime().exec("ls *.java | tr '\\n' '\\n'", null, new File("/mnt/codegen/"+projectid+prgrmType+projPath));
+					Process fileCpd = Runtime.getRuntime().exec("ls *.java | tr '\n' '\n'", null, new File("/mnt/codegen/"+projectid+prgrmType+projPath));
 					printResults(fileCpd);
 					if (!isNullOrEmpty(fileCopied) && !isNullOrEmpty(fileGenerated)) {
 						if (fileCopied.equalsIgnoreCase(fileGenerated)) {
@@ -282,9 +282,7 @@ public class DTOGenDriver {
 				if (tempDirectory0.exists()) 
 				{ 
 					finalStatus = "success";
-				}
-				
-				
+				}			
 			} else {	//if (System.getProperty("os.name").contains("Linux")) {
 				logger.info("os.name" +System.getProperty("os.name"));
 				File tempDirectory = new File(baseFilePath);
