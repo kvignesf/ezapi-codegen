@@ -196,17 +196,18 @@ public class DTOGenDriver {
 					
 					
 					Process fileGenerated2 = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "ls *.java"}, null, new File(outputPojoDirectory.getPath().toString()+"/"+pkgPath));
-					printResults(fileGenerated2);
+					String genFileResult = printAndReturnResults(fileGenerated2);
                     //runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					runCommand("sh", "-c", "mv " +outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					//String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + " /mnt/codegen/"+projectid+prgrmType+projPath);
-					String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n'");
-					logger.info("..fileCopied,," + fileCopied);
+					String fileCpd = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n'");
+					logger.info("..fileCpd,," + fileCpd);
 					logger.info("..path,,," +"/mnt/codegen/"+projectid+prgrmType+projPath);
-					Process fileCpd = Runtime.getRuntime().exec("ls *.java | tr '\\n' '\\n'", null, new File("/mnt/codegen/"+projectid+prgrmType+projPath));
-					printResults(fileCpd);
-					if (!isNullOrEmpty(fileCopied) && !isNullOrEmpty(fileGenerated)) {
-						if (fileCopied.equalsIgnoreCase(fileGenerated)) {
+					
+					Process fileCopied = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "ls *.java"}, null, new File("/mnt/codegen/"+projectid+prgrmType+projPath));
+					String fileCopiedResult = printAndReturnResults(fileCopied);
+					if (!isNullOrEmpty(fileCopiedResult) && !isNullOrEmpty(genFileResult)) {
+						if (fileCopiedResult.equalsIgnoreCase(genFileResult)) {
 							returnMsg = "Success";
 						} else {
 							returnMsg = "Failed to move the generated files";
@@ -433,6 +434,26 @@ public class DTOGenDriver {
 		 * while (!reader.readLine().contains("Congratulations")) {
 		 * System.out.println(line); logger.debug("line.."+ line); }
 		 */
+	}
+	
+	public static String printAndReturnResults(Process process) throws IOException {
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+	    logger.info("reader.."+reader);
+	    String line = "";
+	    logger.info("..line reader.." + reader.readLine());
+	    StringBuilder sb = new StringBuilder();
+	    
+		while ((line = reader.readLine()) != null) {
+			logger.info(line);
+			logger.info("line.." + line);
+			sb.append(line).append("\n");
+		} 
+	    
+		/*
+		 * while (!reader.readLine().contains("Congratulations")) {
+		 * System.out.println(line); logger.debug("line.."+ line); }
+		 */
+		return sb.toString();
 	}
 	
 	
