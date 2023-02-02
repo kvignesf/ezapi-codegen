@@ -95,8 +95,6 @@ public class DTOGenDriver {
 						+ "schemas" + File.separator + dtoName.toString() + ".json");
 				fileGenerated2.createNewFile();
 				pkgPath = "com\\ezapi\\*";
-				//sourceBasepath = "";
-				//targetBasepath = " C:\\Users\\krish\\Documents\\output\\";
 				
 				projBasePath = "/src/main/java/com/ezapi/api/";
 				projPath = projBasePath+ "service/dto";
@@ -106,11 +104,8 @@ public class DTOGenDriver {
 				targetfullPath = targetBasepath+projectid+prgrmType+projBasePath;
 				targetfulldtoPath = targetBasepath+projectid+prgrmType+projPath;
 			} else {
-				//basePath = "/tmp/ezapi_dto_code_gen_test/ezapi_dto_generator/";
 				basePath = "/var/app/ezapi_codegen/ezapi_dto_generator/";
-				/*fileGenerated2 = new File(basePath + baseLocationofFile + File.separator
-						+ "schemas" + File.separator + dtoName.toString() + ".json"); */
-				//fileGenerated2.createNewFile();
+				
 				pkgPath = "com/ezapi/";
 				projBasePath = "/src/main/java/com/ezapi/api/";
 				projPath = projBasePath+ "service/dto";
@@ -127,11 +122,7 @@ public class DTOGenDriver {
 				logger.info("fileGenerated2 here - {}",fileGenerated2.getName());
 				baseLocationofFile = getBaseLocation(basePath+ "src/main/resources");	
 				logger.info("baseLocationofFile here - {}",baseLocationofFile.getPath());
-				//cpr = new ClassPathResource("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json");
-				//jsonFileAsStream = cpr.getInputStream();
-				//logger.info("cpr", cpr.getFile());
-				//logger.info("cpr2",cpr.getPath());
-				//jsonFileAsStream = cpr.getInputStream();
+				
 			}
 			logger.info("reached here - {}");
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("/var/app/ezapi_java_code_gen/src/main/resources/schemas/input.json"))));
@@ -155,8 +146,6 @@ public class DTOGenDriver {
 			String packageName = "com.ezapi";
 			String respMsg = "";
 
-
-			//File inputJson = new File(baseLocationofFile + File.separator + "schemas" + File.separator + "output.json");
 			File outputPojoDirectory = new File(baseLocationofFile + File.separator + "convertedPojo2");
 			outputPojoDirectory.mkdirs();
 			logger.info("..output.."+outputPojoDirectory.getPath());
@@ -168,10 +157,7 @@ public class DTOGenDriver {
 					logger.info("currdir.."+currdir);					
 					String fileGenerated = runCommand("cmd", "/c", "dir /b " + outputPojoDirectory.getPath().toString()+"\\"+pkgPath);
 					logger.info("..fileGenerated,," + fileGenerated);
-                    //runCommand("cmd", "/c", "mkdir  C:\\Users\\krish\\Documents\\output\\" +projectid);
-					//runCommand("cmd", "/c", "move " +outputPojoDirectory.getPath().toString()+"\\"+pkgPath + " C:\\Users\\krish\\Documents\\output\\"+projectid);
 					runCommand("cmd", "/c", "move " +currdir+"\\"+outputPojoDirectory.getPath().toString()+"\\"+pkgPath + " " + targetfulldtoPath);
-					//String fileCopied = runCommand("cmd", "/c", "dir /b " + " C:\\Users\\krish\\Documents\\output\\"+projectid);
 					String fileCopied = runCommand("cmd", "/c", "dir /b " + targetfulldtoPath);
 					logger.info("..fileCopied,," + fileCopied);
 					if (!isNullOrEmpty(fileCopied) && !isNullOrEmpty(fileGenerated)) {
@@ -185,31 +171,19 @@ public class DTOGenDriver {
 					String currdir = runCommand("sh", "-c", "pwd");
 					logger.info("currdir.."+currdir);
 					logger.info("..dir.."+outputPojoDirectory.getPath().toString());
-                    //String projPath = "/src/main/java/com/ezapi/api/service/dto";
-                    //String projBasePath = "/src/main/java/com/ezapi/api/";
                     respMsg=runCommand("sh", "-c", "rm -rf " + " /mnt/codegen/"+projectid+prgrmType+projBasePath+"*JHipster.java");
                     logger.info("respMsg.."+respMsg);                    
-					String fileGenerated = runCommand("sh", "/c", "ls "+outputPojoDirectory.getPath().toString()+"/"+pkgPath+ "*.java | tr '\\n' '\\n' ");
-					logger.info("fileGenerated.."+fileGenerated);
-					
-					
-					
-					
+			
 					Process fileGenerated2 = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "ls *.java"}, null, new File(outputPojoDirectory.getPath().toString()+"/"+pkgPath));
 					String genFileResult = printAndReturnResults(fileGenerated2);
 					logger.info("genFileResult:"+genFileResult);
-                    //runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					runCommand("sh", "-c", "mv " +outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
-					//String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + " /mnt/codegen/"+projectid+prgrmType+projPath);
-					String fileCpd = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n'");
-					logger.info("..fileCpd,," + fileCpd);
-					logger.info("..path,,," +"/mnt/codegen/"+projectid+prgrmType+projPath);
+					
 					
 					Process fileCopied = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "ls *.java"}, null, new File("/mnt/codegen/"+projectid+prgrmType+projPath));
 					String fileCopiedResult = printAndReturnResults(fileCopied);
 					logger.info("fileCopiedResult:"+fileCopiedResult);
 					if (!isNullOrEmpty(fileCopiedResult) && !isNullOrEmpty(genFileResult)) {
-						//if (fileCopiedResult.equalsIgnoreCase(genFileResult)) {
 						if (fileCopiedResult.contains(genFileResult)) {
 							returnMsg = "Success";
 						} else {
@@ -255,7 +229,6 @@ public class DTOGenDriver {
 		parentDirectory = f.getParentFile().toString();
 		logger.info("os.name" +System.getProperty("os.name"));
 		try {
-			//baseFilePath = "C:\\ezapi\\codegentemplates\\javatmplts\\target1\\"+projectId;
 			baseFilePath = parentDirectory;
 			logger.info("baseFilePath.." +baseFilePath);
 			if (System.getProperty("os.name").contains("Windows")) {
@@ -268,9 +241,7 @@ public class DTOGenDriver {
 					logger.info("directories created: "+ dirs);
 				}
 				
-				//baseFilePath = baseFilePath + File.separator + 
-				//srcFilePath = "C:\\ezapi\\codegentemplates\\source\\projectResourceApi\\";
-				//controllerPath = "\\Controllers\\";
+				
 				Process processP1 = Runtime.getRuntime().exec("npm.cmd install generator-jhipster@7.0.1 ", null, new File(baseFilePath) );
 				printResults(processP1);
 				
@@ -289,7 +260,6 @@ public class DTOGenDriver {
 				assert exitCode == 0;
 				future.get(180, TimeUnit.SECONDS);
 				Thread.sleep(5000);
-				//String destPath = baseFilePath+codeProjName+File.separator+"Models";
 				File tempDirectory0 = new File(baseFilePath+"\\"+"src");
 				if (tempDirectory0.exists()) 
 				{ 
@@ -315,15 +285,12 @@ public class DTOGenDriver {
 				 //builder.inheritIO(); 
 				 Process process = builder.start();
 				
-				//Process process = Runtime.getRuntime().exec(String.format("sh -c jhipster jdl --force "+outputFile, baseFilePath));
-				//Process process = Runtime.getRuntime().exec( "sh -c jhipster jdl --force  "+outputFile+" ", null, new File(baseFilePath) );
 				StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
 				Future<?> future = Executors.newSingleThreadExecutor().submit(streamGobbler);
 				int exitCode = process.waitFor();
 				assert exitCode == 0;
 				future.get(180, TimeUnit.SECONDS);
 				Thread.sleep(5000);
-				//String destPath = baseFilePath+codeProjName+File.separator+"Models";
 				File tempDirectory0 = new File(baseFilePath+"\\"+"src");
 				if (tempDirectory0.exists()) 
 				{ 
@@ -331,54 +298,6 @@ public class DTOGenDriver {
 				}
 			}
 			
-			
-			
-			/*
-			Process processP2 = Runtime.getRuntime().exec("jhipster.cmd jdl --force  "+outputFile, null, new File(baseFilePath) );
-			//printResults(processP2);
-			processP2.waitFor();
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(processP2.getInputStream()));
-			
-			BufferedReader stdError = new BufferedReader(new InputStreamReader(processP2.getErrorStream()));
-			String s = null;
-			while ((s = stdInput.readLine()) != null)
-	           {
-	              System.out.println(s);
-	           }
-	          // read any errors from the attempted command
-	          System.out.println("Here is the standard error of the command (if any):\n");
-	           
-	          while ((s = stdError.readLine()) != null)
-	          {
-	               System.out.println(s);
-	          }
-			
-			//String vldmsg = runCommand("cmd.exe", "/c", "jhipster.cmd jdl --force  "+outputFile );
-			//System.out.println("vldmsg.."+vldmsg);
-			*/
-			
-			
-			/*ProcessBuilder builder = new ProcessBuilder();
-			if (System.getProperty("os.name").contains("Windows")) {
-			    builder.command("cmd.exe", "/c", "jhipster.cmd jdl --force  "+outputFile);
-			} else {
-			    builder.command("sh", "-c", "ls");
-			}
-			builder.directory(new File(baseFilePath));
-			builder.inheritIO();
-			Process process = builder.start();
-			StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-			Future<?> future = Executors.newSingleThreadExecutor().submit(streamGobbler);
-			int exitCode = process.waitFor();
-			assert exitCode == 0;
-			future.get(180, TimeUnit.SECONDS);
-			Thread.sleep(5000);
-			//String destPath = baseFilePath+codeProjName+File.separator+"Models";
-			File tempDirectory0 = new File(baseFilePath+"\\"+"src");
-			if (tempDirectory0.exists()) 
-			{ 
-				finalStatus = "success";
-			}*/
 		}  catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -425,25 +344,19 @@ public class DTOGenDriver {
 	public static void printResults(Process process) throws IOException {
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 	    logger.info("reader.."+reader);
-	    String line = "";
-	    //logger.info("..line reader.." + reader.readLine());
-		
+	    String line = "";		
 		while ((line = reader.readLine()) != null) {
 			logger.info(line);
 			logger.info("line.." + line);
 		} 
 	    
-		/*
-		 * while (!reader.readLine().contains("Congratulations")) {
-		 * System.out.println(line); logger.debug("line.."+ line); }
-		 */
+		
 	}
 	
 	public static String printAndReturnResults(Process process) throws IOException {
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 	    logger.info("reader.."+reader);
 	    String line = "";
-	    //logger.info("..line reader.." + reader.readLine());
 	    StringBuilder sb = new StringBuilder();
 	    
 		while ((line = reader.readLine()) != null) {
@@ -452,10 +365,6 @@ public class DTOGenDriver {
 			sb.append(line).append("\n");
 		} 
 	    
-		/*
-		 * while (!reader.readLine().contains("Congratulations")) {
-		 * System.out.println(line); logger.debug("line.."+ line); }
-		 */
 		return sb.toString();
 	}
 	
@@ -484,9 +393,7 @@ public class DTOGenDriver {
 	}
 	
 	public String runCommand(String... command) {
-		logger.info("command..:"+command.toString());
 		ProcessBuilder processBuilder = new ProcessBuilder().command(command);
-		//System.out.println("command.."+command.toString());
 		Process process;
 		String output = "";
 		String returnDir = "";
@@ -513,8 +420,7 @@ public class DTOGenDriver {
 		if (returnDir.length() > 0) {
 			returnDir = returnDir.substring(0, returnDir.length()-1);
 		}
-		//System.out.println(",returnDir.."+returnDir.substring(0, returnDir.length()-1));
-		//return returnDir.substring(0, returnDir.length()-1);
+		
 		return returnDir;
 	}
 
