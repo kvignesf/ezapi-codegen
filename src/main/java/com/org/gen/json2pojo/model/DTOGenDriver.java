@@ -195,7 +195,7 @@ public class DTOGenDriver {
 					
 					
 					
-					Process fileGenerated2 = Runtime.getRuntime().exec(new String[]{"/system/bin/sh", "-c", "ls *.java"}, null, new File(outputPojoDirectory.getPath().toString()+"/"+pkgPath));
+					Process fileGenerated2 = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "ls *.java"}, null, new File(outputPojoDirectory.getPath().toString()+"/"+pkgPath));
 					printResults(fileGenerated2);
                     //runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					runCommand("sh", "-c", "mv " +outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
@@ -460,6 +460,7 @@ public class DTOGenDriver {
 	}
 	
 	public String runCommand(String... command) {
+		logger.info("command..:"+command);
 		ProcessBuilder processBuilder = new ProcessBuilder().command(command);
 		//System.out.println("command.."+command.toString());
 		Process process;
