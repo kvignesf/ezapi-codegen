@@ -460,7 +460,7 @@ public class DTOGenDriver {
 	}
 	
 	public String runCommand(String... command) {
-		logger.info("command..:"+command);
+		logger.info("command..:"+command.toString());
 		ProcessBuilder processBuilder = new ProcessBuilder().command(command);
 		//System.out.println("command.."+command.toString());
 		Process process;
