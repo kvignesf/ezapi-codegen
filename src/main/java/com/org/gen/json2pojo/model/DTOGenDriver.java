@@ -197,6 +197,7 @@ public class DTOGenDriver {
 					
 					Process fileGenerated2 = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "ls *.java"}, null, new File(outputPojoDirectory.getPath().toString()+"/"+pkgPath));
 					String genFileResult = printAndReturnResults(fileGenerated2);
+					logger.info("genFileResult:"+genFileResult);
                     //runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					runCommand("sh", "-c", "mv " +outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					//String fileCopied = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + " /mnt/codegen/"+projectid+prgrmType+projPath);
@@ -206,6 +207,7 @@ public class DTOGenDriver {
 					
 					Process fileCopied = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "ls *.java"}, null, new File("/mnt/codegen/"+projectid+prgrmType+projPath));
 					String fileCopiedResult = printAndReturnResults(fileCopied);
+					logger.info("fileCopiedResult:"+fileCopiedResult);
 					if (!isNullOrEmpty(fileCopiedResult) && !isNullOrEmpty(genFileResult)) {
 						if (fileCopiedResult.equalsIgnoreCase(genFileResult)) {
 							returnMsg = "Success";
