@@ -425,7 +425,7 @@ public class DTOGenDriver {
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 	    logger.info("reader.."+reader);
 	    String line = "";
-	    logger.info("..line reader.." + reader.readLine());
+	    //logger.info("..line reader.." + reader.readLine());
 		
 		while ((line = reader.readLine()) != null) {
 			logger.info(line);
@@ -442,7 +442,7 @@ public class DTOGenDriver {
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 	    logger.info("reader.."+reader);
 	    String line = "";
-	    logger.info("..line reader.." + reader.readLine());
+	    //logger.info("..line reader.." + reader.readLine());
 	    StringBuilder sb = new StringBuilder();
 	    
 		while ((line = reader.readLine()) != null) {
