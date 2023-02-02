@@ -189,9 +189,13 @@ public class DTOGenDriver {
                     //String projBasePath = "/src/main/java/com/ezapi/api/";
                     respMsg=runCommand("sh", "-c", "rm -rf " + " /mnt/codegen/"+projectid+prgrmType+projBasePath+"*JHipster.java");
                     logger.info("respMsg.."+respMsg);                    
-					String fileGenerated = runCommand("sh", "/c", "ls *.java | tr '\\n' '\\n' " + outputPojoDirectory.getPath().toString()+"/"+pkgPath);
+					String fileGenerated = runCommand("sh", "/c", "ls "+outputPojoDirectory.getPath().toString()+"/"+pkgPath+ "/*.java | tr '\\n' '\\n' ");
 					logger.info("fileGenerated.."+fileGenerated);
-					Process fileGenerated2 = Runtime.getRuntime().exec("ls *.java", null, new File(outputPojoDirectory.getPath().toString()+"/"+pkgPath));
+					
+					
+					
+					
+					Process fileGenerated2 = Runtime.getRuntime().exec(new String[]{"/system/bin/sh", "-c", "ls *.java"}, null, new File(outputPojoDirectory.getPath().toString()+"/"+pkgPath));
 					printResults(fileGenerated2);
                     //runCommand("sh", "-c", "mv " +currdir+"/"+outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
 					runCommand("sh", "-c", "mv " +outputPojoDirectory.getPath().toString()+"/"+pkgPath+"/*"+ " /mnt/codegen/"+projectid+prgrmType+projPath);
@@ -430,7 +434,8 @@ public class DTOGenDriver {
 		 * System.out.println(line); logger.debug("line.."+ line); }
 		 */
 	}
-
+	
+	
 	public static File getBaseLocation(String folderName) {
 		File baseLocationFile = new File(folderName);
 		
