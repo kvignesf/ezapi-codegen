@@ -111,7 +111,7 @@ public class DTOGenDriver {
 				/*fileGenerated2 = new File(basePath + baseLocationofFile + File.separator
 						+ "schemas" + File.separator + dtoName.toString() + ".json"); */
 				//fileGenerated2.createNewFile();
-				pkgPath = "com/ezapi";
+				pkgPath = "com/ezapi/";
 				projBasePath = "/src/main/java/com/ezapi/api/";
 				projPath = projBasePath+ "service/dto";
                 
@@ -189,7 +189,7 @@ public class DTOGenDriver {
                     //String projBasePath = "/src/main/java/com/ezapi/api/";
                     respMsg=runCommand("sh", "-c", "rm -rf " + " /mnt/codegen/"+projectid+prgrmType+projBasePath+"*JHipster.java");
                     logger.info("respMsg.."+respMsg);                    
-					String fileGenerated = runCommand("sh", "/c", "ls "+outputPojoDirectory.getPath().toString()+"/"+pkgPath+ "/*.java | tr '\\n' '\\n' ");
+					String fileGenerated = runCommand("sh", "/c", "ls "+outputPojoDirectory.getPath().toString()+"/"+pkgPath+ "*.java | tr '\\n' '\\n' ");
 					logger.info("fileGenerated.."+fileGenerated);
 					
 					
