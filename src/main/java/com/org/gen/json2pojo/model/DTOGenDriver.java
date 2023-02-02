@@ -209,7 +209,8 @@ public class DTOGenDriver {
 					String fileCopiedResult = printAndReturnResults(fileCopied);
 					logger.info("fileCopiedResult:"+fileCopiedResult);
 					if (!isNullOrEmpty(fileCopiedResult) && !isNullOrEmpty(genFileResult)) {
-						if (fileCopiedResult.equalsIgnoreCase(genFileResult)) {
+						//if (fileCopiedResult.equalsIgnoreCase(genFileResult)) {
+						if (genFileResult.contains(fileCopiedResult)) {
 							returnMsg = "Success";
 						} else {
 							returnMsg = "Failed to move the generated files";
