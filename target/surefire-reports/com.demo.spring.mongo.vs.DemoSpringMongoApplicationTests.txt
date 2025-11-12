@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.demo.spring.mongo.vs.DemoSpringMongoApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.266 s - in com.demo.spring.mongo.vs.DemoSpringMongoApplicationTests
