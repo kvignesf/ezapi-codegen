@@ -29,7 +29,7 @@ jobs:
         run: ls -l ./ezapi_poc/infra_poc/target
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: java-artifact
           path: ./ezapi_poc/infra_poc/target/*.jar
@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: java-artifact
 
@@ -57,6 +57,6 @@ jobs:
 
       - name: Deploy artifact to Azure VM
         run: |
-          scp *.jar azureuser@20.197.6.140:/home/azureuser/deployments/
-          ssh azureuser@20.197.6.140 "bash /home/azureuser/deployments/deploy_script.sh"
+          scp *.jar ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}/
+          ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "bash ${{ secrets.DEPLOY_PATH }}/deploy_script.sh"
 
